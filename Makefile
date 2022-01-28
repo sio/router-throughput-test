@@ -98,7 +98,7 @@ help: export HELP_HEADER?=
 help: MAKEFILE=$(lastword $(MAKEFILE_LIST))
 help:  # show this help message and exit
 	@echo "$$HELP_HEADER"
-	@awk '/^\S+:  # / {sub(":  #", "\t"); print "    " $$0}' $(MAKEFILE)|column -t -s '	'
+	@awk '/^[^ \t]+:  # / {sub(":  #", "\t"); print "    " $$0}' $(MAKEFILE)|column -t -s '	'
 
 
 .PHONY: .require-TARGET
