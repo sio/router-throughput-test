@@ -5,7 +5,7 @@ IPERF3_ARGS+=--port $(IPERF3_PORT)
 endif
 
 
-WAN_IFACE?=$(shell ls /sys/class/net|grep -vE 'lo|vir'|head -n1)
+WAN_IFACE?=$(shell ls /sys/class/net|grep -vE 'lo|vir|docker'|head -n1)
 WAN_SUBNET?=10.100.10.1/24
 WAN_DHCP?=10.100.10.101,10.100.10.199
 TARGET?=$(firstword $(subst /, ,$(WAN_SUBNET)))
