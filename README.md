@@ -48,13 +48,16 @@ $ make iperf3-server &
 
 #### LAN side
 
+This device always stays connected to LAN port of the router, there should be
+physical actions involving this device or its Ethernet cable.
+
 Before replacing WAN connection with our fake ISP device:
 
 ```
 $ make install-lan
 ```
 
-After connecting our device to router WAN port:
+After setting up the test network according to the diagram above:
 
 ```
 $ ifdown eth0; ifup eth0
