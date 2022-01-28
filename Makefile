@@ -18,6 +18,7 @@ endif
 .PHONY: test
 test: .require-TARGET install-iperf3
 test:  # measure up/down througput between this host and $TARGET
+	$(NO_BUFFER) $(MAKE) test-bidirectional $(APPEND_TO_LOGFILE)
 	$(NO_BUFFER) $(MAKE) test-download $(APPEND_TO_LOGFILE)
 	$(NO_BUFFER) $(MAKE) test-upload $(APPEND_TO_LOGFILE)
 
@@ -32,6 +33,12 @@ test-upload:  # measure throughput from this host to $TARGET
 test-download:  # measure throughput from $TARGET to this host
 test-download: test-upload
 test-download: IPERF3_ARGS+=--reverse
+
+
+.PHONY: test-bidirectional
+test-bidirectional:  # measure bidirectional throughput (full-duplex test)
+test-bidirectional: test-upload
+test-bidirectional: IPERF3_ARGS+=--bidir
 
 
 .PHONY: static-ip
