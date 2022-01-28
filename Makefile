@@ -2,6 +2,11 @@ IPERF3?=iperf3
 IPERF3_ARGS?=--client $(TARGET) --parallel 2
 
 
+WAN_IFACE?=$(shell ls /sys/class/net|grep -vE 'lo|vir'|head -n1)
+WAN_SUBNET?=10.100.10.1/24
+WAN_DHCP?=10.100.10.101,10.100.10.199
+
+
 LOGFILE?=iperf3.log
 ifdef LOGFILE
 APPEND_TO_LOGFILE=2>&1 | tee --append $(LOGFILE)
@@ -27,9 +32,23 @@ test-download: test-upload
 test-download: IPERF3_ARGS+=--reverse
 
 
+.PHONY: static-ip
+static-ip:  # configure this host to use static IP on first Ethernet interface
+	ip addr flush $(WAN_IFACE)
+	ip addr replace $(WAN_SUBNET) dev $(WAN_IFACE)
+	ip link set $(WAN_IFACE) up
+	ip addr show $(WAN_IFACE)
+	ip route
+
+
 .PHONY: dhcp-server
 dhcp-server: install-dnsmasq
 dhcp-server:  # start DHCP server in a foreground task
+	dnsmasq \
+		--no-daemon \
+		--port=0 \
+		--dhcp-range=$(WAN_DHCP) \
+		--log-dhcp
 
 
 .PHONY: iperf3-server
