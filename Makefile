@@ -8,6 +8,7 @@ WAN_DHCP?=10.100.10.101,10.100.10.199
 
 
 LOGFILE?=iperf3.log
+NO_BUFFER=stdbuf -o0
 ifdef LOGFILE
 APPEND_TO_LOGFILE=2>&1 | tee --append $(LOGFILE)
 endif
@@ -16,8 +17,8 @@ endif
 .PHONY: test
 test: .require-TARGET install-iperf3
 test:  # measure up/down througput between this host and $TARGET
-	$(MAKE) test-download $(APPEND_TO_LOGFILE)
-	$(MAKE) test-upload $(APPEND_TO_LOGFILE)
+	$(NO_BUFFER) $(MAKE) test-download $(APPEND_TO_LOGFILE)
+	$(NO_BUFFER) $(MAKE) test-upload $(APPEND_TO_LOGFILE)
 
 
 .PHONY: test-upload
