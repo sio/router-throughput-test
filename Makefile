@@ -1,5 +1,8 @@
 IPERF3?=iperf3
 IPERF3_ARGS?=--client $(TARGET) --parallel 2
+ifdef IPERF3_PORT
+IPERF3_ARGS+=--port $(IPERF3_PORT)
+endif
 
 
 WAN_IFACE?=$(shell ls /sys/class/net|grep -vE 'lo|vir'|head -n1)
