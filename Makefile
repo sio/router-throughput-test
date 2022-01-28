@@ -5,6 +5,7 @@ IPERF3_ARGS?=--client $(TARGET) --parallel 2
 WAN_IFACE?=$(shell ls /sys/class/net|grep -vE 'lo|vir'|head -n1)
 WAN_SUBNET?=10.100.10.1/24
 WAN_DHCP?=10.100.10.101,10.100.10.199
+TARGET?=$(firstword $(subst /, ,$(WAN_SUBNET)))
 
 
 LOGFILE?=iperf3.log
