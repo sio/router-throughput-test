@@ -99,6 +99,12 @@ iperf3:  # execute iperf3 with $IPERF3_ARGS
 	$(IPERF3) $(IPERF3_ARGS)
 
 
+.PHONY: ping
+ping: .require-TARGET
+ping:  # check connectivity to $TARGET
+	ping $(TARGET)
+
+
 define HELP_HEADER
 Test router throughput capabilities
 
