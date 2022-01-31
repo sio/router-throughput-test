@@ -49,7 +49,7 @@ $ make iperf3-server &
 #### LAN side
 
 This device always stays connected to LAN port of the router, there should be
-physical actions involving this device or its Ethernet cable.
+no physical actions involving this device or its Ethernet cable.
 
 Before replacing WAN connection with our fake ISP device:
 
